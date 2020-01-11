@@ -8,8 +8,8 @@ int main(int args, char *argv[])
 {
 	char buf[SIZE];
 	int fd, f;
-	const char *fin = "a.txt";
-	const char *fout = "b.txt";
+	const char *fin = "../a.txt";
+	const char *fout = "../b.txt";
 	
 	fd = open(fin, O_RDONLY);
 	if (fd < 0) {
