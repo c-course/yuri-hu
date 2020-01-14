@@ -6,7 +6,6 @@
 #include <unistd.h>
 #include <netinet/in.h>
 #include <string.h>
-#include <stdio.h>
 
 #define MAX 1024
 
@@ -18,6 +17,7 @@ int main(int argc, char *argv[])
     svraddr.sin_family = AF_INET;
     svraddr.sin_port = htons(1234);
     svraddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
     bind(fd, (struct sockaddr*)&svraddr, sizeof(svraddr));
     listen(fd, 20);
 
@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
     rootpath[0] = '\0';
     strcat(strcat(rootpath, argv[1]), filename);
 
+    // send file
     char buf[MAX];
     bzero(buf, MAX);
     std::ifstream istrm(rootpath, std::ios::binary);
@@ -41,7 +42,6 @@ int main(int argc, char *argv[])
     send(cli, buf, l, 0);
 
     istrm.close();
-
     close(cli);
     close(fd);
     return 0;

@@ -6,13 +6,12 @@
 #include <string.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#include <sys/types.h>
 
 #define MAX 1024
 
 int main(int argc, char *argv[])
 {
-    char buf[MAX];
-    bzero(buf, MAX);
     int f = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     struct sockaddr_in svraddr;
     bzero(&svraddr, sizeof(svraddr));
@@ -27,12 +26,14 @@ int main(int argc, char *argv[])
     send(f, filename, strlen(filename) + 1, 0);
 
     // recieve file
+    char buf[MAX];
+    bzero(buf, MAX);
     int n = recv(f, buf, MAX, 0);
     const char *recieve_n = basename((char *)filename);
     std::ofstream ostrm(recieve_n, std::ios::binary);
     ostrm.write(buf, n);
+
     ostrm.close();
- 
     close(f);
     return 0;
 }
